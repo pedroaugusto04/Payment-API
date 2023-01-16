@@ -4,8 +4,8 @@
  */
 package com.example.demo.controller;
 
-import com.example.demo.dao.ClientRepository;
 import com.example.demo.models.Client;
+import com.example.demo.services.ClientService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ClientController {
     
-    private ClientRepository clientRepository;
+    private ClientService  clientService;
     
-    public ClientController(ClientRepository clientRepository){
-        this.clientRepository = clientRepository;
+    public ClientController(ClientService clientService){
+        this.clientService = clientService;
     }
 
     @PostMapping("/clients")
     public Client createClient(@RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.saveClient(client);
     }
 }

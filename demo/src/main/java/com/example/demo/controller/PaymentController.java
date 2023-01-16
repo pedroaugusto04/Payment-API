@@ -4,8 +4,8 @@
  */
 package com.example.demo.controller;
 
-import com.example.demo.dao.PaymentRepository;
 import com.example.demo.models.Payment;
+import com.example.demo.services.PaymentService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PaymentController {
     
-    private PaymentRepository paymentRepository;
+    private PaymentService paymentService;
     
-    public PaymentController(PaymentRepository paymentRepository){
-        this.paymentRepository = paymentRepository;
+    public PaymentController(PaymentService paymentService){
+        this.paymentService = paymentService;
     }
 
     @PostMapping("/payments")
     public Payment createPayment(@RequestBody Payment payment) {
-        return paymentRepository.save(payment);
+        return paymentService.savePayment(payment);
     }
 
 }

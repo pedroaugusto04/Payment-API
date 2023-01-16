@@ -4,8 +4,8 @@
  */
 package com.example.demo.controller;
 
-import com.example.demo.dao.CardRepository;
 import com.example.demo.models.Card;
+import com.example.demo.services.CardService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CardController {
     
-    private CardRepository cardRepository;
+    private CardService cardService;
     
-    public CardController(CardRepository cardRepository){
-        this.cardRepository = cardRepository;
+    public CardController(CardService cardService){
+        this.cardService = cardService;
     }
     
     @PostMapping("/cards")
     public Card createCard(@RequestBody Card card){
-        return cardRepository.save(card);
+        return cardService.saveCard(card);
     }
 }

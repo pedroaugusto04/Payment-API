@@ -4,8 +4,8 @@
  */
 package com.example.demo.controller;
 
-import com.example.demo.dao.BuyerRepository;
 import com.example.demo.models.Buyer;
+import com.example.demo.services.BuyerService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BuyerController {
     
-    private BuyerRepository buyerRepository;
+    private BuyerService buyerService;
     
-    public BuyerController(BuyerRepository buyerRepository){
-        this.buyerRepository = buyerRepository;
+    public BuyerController(BuyerService buyerService){
+        this.buyerService = buyerService;
     }
     
     @PostMapping("/buyers")
     public Buyer createBuyer(@RequestBody Buyer buyer){
-        return buyerRepository.save(buyer);
+        return buyerService.saveBuyer(buyer);
     }
+
     
     /*@RequestMapping("/buyers")
     public String teste() {
