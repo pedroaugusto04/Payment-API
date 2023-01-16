@@ -6,6 +6,7 @@ package com.example.demo.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+
 import lombok.Data;
 
 /**
@@ -20,5 +21,4 @@ public class Buyer {
     private String email;
     @Id
     private String cpf;
-    
 }

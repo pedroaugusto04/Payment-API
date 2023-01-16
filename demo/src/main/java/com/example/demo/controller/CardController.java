@@ -4,7 +4,10 @@
  */
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.demo.dao.CardRepository;
+import com.example.demo.models.Card;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,8 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CardController {
     
-    @RequestMapping("/cards")
-    public String teste() {
-        return "OK";
+    private CardRepository cardRepository;
+    
+    public CardController(CardRepository cardRepository){
+        this.cardRepository = cardRepository;
+    }
+    
+    @PostMapping("/cards")
+    public Card createCard(@RequestBody Card card){
+        return cardRepository.save(card);
     }
 }

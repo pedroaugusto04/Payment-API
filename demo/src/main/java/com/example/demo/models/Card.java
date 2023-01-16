@@ -5,8 +5,6 @@
 package com.example.demo.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -23,10 +21,9 @@ public class Card {
     
     private String cardHolderName;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String cardNumber;
+    private Integer cardNumber;
     @Temporal(TemporalType.DATE)
     private Calendar cardExpirationDate;
-    private String cardCvv;
+    private Integer cardCvv;
     
 }

@@ -6,8 +6,8 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.BuyerRepository;
 import com.example.demo.models.Buyer;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,19 +23,19 @@ public class BuyerController {
         this.buyerRepository = buyerRepository;
     }
     
-    @RequestMapping("/create/Buyer")
+    @PostMapping("/buyers")
     public Buyer createBuyer(@RequestBody Buyer buyer){
         return buyerRepository.save(buyer);
     }
     
-    @RequestMapping("/buyer/creditCard")
+    /*@RequestMapping("/buyers")
     public String teste() {
         return "successful or not";
     }
     
-    @RequestMapping("/buyer/boleto")
+    @RequestMapping("/buyers")
     public String teste2(){
         return "boletoNumber";
     }
-    
+    */
 }

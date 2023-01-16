@@ -7,6 +7,7 @@ package com.example.demo.controller;
 import com.example.demo.dao.ClientRepository;
 import com.example.demo.models.Client;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,9 +23,8 @@ public class ClientController {
         this.clientRepository = clientRepository;
     }
 
-    @PostMapping("/client")
-    public Client createClient() {
-        //
-        return null;
+    @PostMapping("/clients")
+    public Client createClient(@RequestBody Client client) {
+        return clientRepository.save(client);
     }
 }
