@@ -6,11 +6,13 @@ package com.example.demo.services;
 
 import com.example.demo.dao.CardRepository;
 import com.example.demo.models.Card;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author pedro
  */
+@Service
 public class CardService implements ICardService {
 
     private CardRepository cardRepository;

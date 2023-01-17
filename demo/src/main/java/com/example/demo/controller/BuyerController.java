@@ -8,6 +8,7 @@ import com.example.demo.models.Buyer;
 import com.example.demo.services.BuyerService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pedro
  */
 @RestController
+@RequestMapping("/buyers")
 public class BuyerController {
     
     private BuyerService buyerService;
@@ -23,20 +25,8 @@ public class BuyerController {
         this.buyerService = buyerService;
     }
     
-    @PostMapping("/buyers")
+    @PostMapping
     public Buyer createBuyer(@RequestBody Buyer buyer){
         return buyerService.saveBuyer(buyer);
     }
-
-    
-    /*@RequestMapping("/buyers")
-    public String teste() {
-        return "successful or not";
-    }
-    
-    @RequestMapping("/buyers")
-    public String teste2(){
-        return "boletoNumber";
-    }
-    */
 }

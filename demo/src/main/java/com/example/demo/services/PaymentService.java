@@ -6,11 +6,13 @@ package com.example.demo.services;
 
 import com.example.demo.dao.PaymentRepository;
 import com.example.demo.models.Payment;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author pedro
  */
+@Service
 public class PaymentService implements IPaymentService {
     
     private PaymentRepository paymentRepository;

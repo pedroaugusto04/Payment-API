@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 /**
@@ -25,14 +24,8 @@ public class Payment {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
     private double amount;
-    private Type type;
+    private PaymentType type;
     @ManyToOne(optional = true)
     @JoinColumn(name = "cardNumber", nullable = true)
     private Card card;
-    /*@ManyToOne
-    @JoinColumn( name = "clientId")
-    private Client client;
-    @OneToOne
-    @JoinColumn(name = "buyerCpf")
-    private Buyer buyer;*/
 }

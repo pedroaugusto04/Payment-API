@@ -4,13 +4,14 @@
  */
 package com.example.demo.services;
 
-import com.example.demo.models.Client;
+import com.example.demo.models.UserModel;
+
 
 /**
  *
  * @author pedro
  */
-public interface IClientService {
+public interface IUserService {
     
-    public Client saveClient(Client client);
+    public UserModel saveUser(UserModel user);
 }

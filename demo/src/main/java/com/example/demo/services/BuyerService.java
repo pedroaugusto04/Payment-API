@@ -6,11 +6,13 @@ package com.example.demo.services;
 
 import com.example.demo.dao.BuyerRepository;
 import com.example.demo.models.Buyer;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author pedro
  */
+@Service
 public class BuyerService implements IBuyerService {
 
     private BuyerRepository buyerRepository;

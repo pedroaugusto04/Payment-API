@@ -8,6 +8,6 @@ package com.example.demo.models;
  *
  * @author pedro
  */
-public enum Type {
-    BOLETO,CARD;
+public enum RoleType {
+    ROLE_CLIENT,ROLE_BUYER,ROLE_ADMIN;
 }

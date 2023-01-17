@@ -4,7 +4,8 @@
  */
 package com.example.demo.dao;
 
-import com.example.demo.models.Client;
+import com.example.demo.models.UserModel;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author pedro
  */
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Integer> {
+public interface UserRepository extends JpaRepository<UserModel, Integer> {
+    
+    public Optional<UserModel> findByUsername(String username);
 }

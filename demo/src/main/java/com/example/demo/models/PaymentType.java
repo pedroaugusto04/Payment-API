@@ -4,17 +4,10 @@
  */
 package com.example.demo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
-
 /**
  *
  * @author pedro
  */
-@Data
-@Entity
-public class Client {
-    @Id
-    private Integer id;
+public enum PaymentType {
+    BOLETO,CARD;
 }
