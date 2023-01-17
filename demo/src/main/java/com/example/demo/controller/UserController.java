@@ -5,7 +5,6 @@
 package com.example.demo.controller;
 import com.example.demo.models.UserModel;
 import com.example.demo.services.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pedro
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/signup")
 public class UserController {
     
     private UserService  userService;
@@ -25,7 +24,6 @@ public class UserController {
         this.userService = userService;
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CLIENT','ROLE_BUYER')")
     @PostMapping
     public UserModel createClient(@RequestBody UserModel user) {
         return userService.saveUser(user);
