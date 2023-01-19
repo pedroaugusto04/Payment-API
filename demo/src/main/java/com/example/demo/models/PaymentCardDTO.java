@@ -4,10 +4,21 @@
  */
 package com.example.demo.models;
 
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+
 /**
  *
  * @author pedro
  */
-public enum PaymentType {
-    BOLETO,CARD;
+
+@Getter
+@Setter
+public class PaymentCardDTO {
+    @NotNull
+    private Card card;
+    @NotNull
+    private Payment payment;
 }

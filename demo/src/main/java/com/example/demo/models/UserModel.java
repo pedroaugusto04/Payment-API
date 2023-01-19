@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,10 +30,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserModel implements UserDetails {
 
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false, unique = true)
+    @NotNull
     private String username;
     @Column(nullable = false)
+    @NotNull
     private String password;
     @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -88,6 +92,5 @@ public class UserModel implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-    
 
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 /**
@@ -23,8 +24,8 @@ public class Payment {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Positive
     private double amount;
-    private PaymentType type;
     @ManyToOne(optional = true)
     @JoinColumn(name = "cardNumber", nullable = true)
     private Card card;

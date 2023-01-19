@@ -5,6 +5,7 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Card;
+import org.springframework.data.crossstore.ChangeSetPersister;
 
 /**
  *
@@ -13,4 +14,6 @@ import com.example.demo.models.Card;
 public interface ICardService {
     
     public Card saveCard(Card card);
+    
+    public Card findCardByCardNumber(Integer cardNumber) throws ChangeSetPersister.NotFoundException;
 }

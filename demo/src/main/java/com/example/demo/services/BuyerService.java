@@ -6,7 +6,10 @@ package com.example.demo.services;
 
 import com.example.demo.dao.BuyerRepository;
 import com.example.demo.models.Buyer;
+import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -22,6 +25,8 @@ public class BuyerService implements IBuyerService {
     }
 
     @Override
+    @Transactional
+    @ResponseStatus(HttpStatus.CREATED)
     public Buyer saveBuyer(Buyer buyer) {
         return buyerRepository.save(buyer);
     }

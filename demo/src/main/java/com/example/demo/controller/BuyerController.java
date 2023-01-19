@@ -6,6 +6,7 @@ package com.example.demo.controller;
 
 import com.example.demo.models.Buyer;
 import com.example.demo.services.BuyerService;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class BuyerController {
     
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CLIENT','ROLE_BUYER')")
     @PostMapping
-    public Buyer createBuyer(@RequestBody Buyer buyer){
+    public Buyer saveBuyer(@Valid @RequestBody Buyer buyer){
         return buyerService.saveBuyer(buyer);
     }
 }

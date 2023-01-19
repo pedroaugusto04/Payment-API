@@ -6,6 +6,8 @@ package com.example.demo.controller;
 
 import com.example.demo.models.Card;
 import com.example.demo.services.CardService;
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +27,9 @@ public class CardController {
         this.cardService = cardService;
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BUYER')")
     @PostMapping
-    public Card createCard(@RequestBody Card card){
+    public Card saveCard(@Valid @RequestBody Card card){
         return cardService.saveCard(card);
     }
 }

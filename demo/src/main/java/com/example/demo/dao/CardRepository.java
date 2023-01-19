@@ -5,6 +5,8 @@
 package com.example.demo.dao;
 
 import com.example.demo.models.Card;
+import java.util.Optional;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CardRepository extends JpaRepository<Card, String> {
     
+    public Optional<Card> findByCardNumber(Integer cardNumber) throws ChangeSetPersister.NotFoundException;
 }
