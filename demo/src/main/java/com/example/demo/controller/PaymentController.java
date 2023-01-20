@@ -4,11 +4,13 @@
  */
 package com.example.demo.controller;
 
+import com.example.demo.dto.PurchaseModelBoleto;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.exceptions.IdNotFoundException;
-import com.example.demo.exceptions.InvalidPaymentException;
+import com.example.demo.exceptions.InvalidBuyerException;
 import com.example.demo.models.Payment;
-import com.example.demo.dto.PaymentCardDTO;
+import com.example.demo.dto.PurchaseModelCard;
+import com.example.demo.exceptions.CpfNotFoundException;
 import com.example.demo.services.PaymentService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -41,25 +43,21 @@ public class PaymentController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BUYER')")
     @PostMapping("/boleto")
-    public ResponseEntity<Object> saveBoletoPayment(@Valid @RequestBody Payment payment) throws InvalidPaymentException {
-        paymentService.isBoletoPaymentValid(payment);
+    public ResponseEntity<Long> saveBoletoPayment(@Valid @RequestBody PurchaseModelBoleto payment) throws InvalidBuyerException, CpfNotFoundException {
         Long numBoleto = paymentService.boletoPayment(payment);
         return ResponseEntity.ok(numBoleto);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BUYER')")
     @PostMapping("/credit")
-    public ResponseEntity<Object> saveCreditPayment(@Valid @RequestBody PaymentCardDTO paymentCard) throws InvalidPaymentException, CardNotFoundException {
-        paymentService.isCreditPaymentValid(paymentCard);
-        String cardHolderName;
-        cardHolderName = paymentService.creditPayment(paymentCard);
+    public ResponseEntity<String> saveCreditPayment(@Valid @RequestBody PurchaseModelCard payment) throws InvalidBuyerException, CardNotFoundException, CpfNotFoundException {
+        String cardHolderName = paymentService.creditPayment(payment);
         return ResponseEntity.ok("Sucessfully transaction for " + cardHolderName);
     }
 
     @GetMapping("/{paymentId}")
     public Payment getByPaymentId(@PathVariable UUID paymentId) throws IdNotFoundException {
-        Payment payment = paymentService.findByPaymentId(paymentId);
-        return payment;
+        return paymentService.findByPaymentId(paymentId);
     }
 
     @GetMapping
@@ -68,12 +66,13 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{paymentId}")
-    public void deletePayment(@PathVariable UUID paymentId) throws IdNotFoundException {
+    public ResponseEntity<String> deletePayment(@PathVariable UUID paymentId) throws IdNotFoundException {
         paymentService.deletePayment(paymentId);
+        return ResponseEntity.ok("Payment deleted successfully!");
     }
 
     @PutMapping("/{userId}")
-    public void updatePayment(@Valid @RequestBody Payment newPayment, @PathVariable UUID paymentId) throws IdNotFoundException {
-        paymentService.updatePayment(paymentId, newPayment);
+    public ResponseEntity<Object> updatePayment(@Valid @RequestBody Payment newPayment, @PathVariable UUID paymentId) throws IdNotFoundException {
+        return ResponseEntity.ok(paymentService.updatePayment(paymentId, newPayment));
     }
 }

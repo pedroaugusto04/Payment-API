@@ -4,13 +4,16 @@
  */
 package com.example.demo.models;
 
+import com.example.demo.validation.ValidationGroup.Boleto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.groups.Default;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,10 +31,11 @@ public class Payment {
     @GeneratedValue (strategy = GenerationType.UUID)
     private UUID id;
     
-    @Positive
+    @Positive(groups = {Default.class,Boleto.class})
     private double amount;
     
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "cardNumber", nullable = true)
+    @ManyToOne(optional= true)
+    @JoinColumn(name = "cardNumber", nullable= true)
+    @Valid
     private Card card;
 }

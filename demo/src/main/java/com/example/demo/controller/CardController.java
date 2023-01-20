@@ -4,11 +4,13 @@
  */
 package com.example.demo.controller;
 
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.models.Card;
 import com.example.demo.services.CardService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +38,13 @@ public class CardController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BUYER')")
-    public Card saveCard(@Valid @RequestBody Card card) {
+    public Card saveCard(@Valid @RequestBody Card card) throws AlreadyRegisteredException{
         return cardService.saveCard(card);
     }
 
     @GetMapping("/{cardNumber}")
     public Card getByCardNumber(@PathVariable Integer cardNumber) throws CardNotFoundException {
-        Card card = cardService.findByCardNumber(cardNumber);
-        return card;
+        return cardService.findByCardNumber(cardNumber);
     }
 
     @GetMapping
@@ -52,12 +53,13 @@ public class CardController {
     }
 
     @DeleteMapping("/{cardNumber}")
-    public void deleteCard(@PathVariable Integer cardNumber) throws CardNotFoundException {
+    public ResponseEntity<String> deleteCard(@PathVariable Integer cardNumber) throws CardNotFoundException {
         cardService.deleteCard(cardNumber);
+        return ResponseEntity.ok("Card deleted successfully!");
     }
 
     @PutMapping("/{cardNumber}")
-    public void updateCard(@Valid @RequestBody Card newCard,@PathVariable Integer cardNumber) throws CardNotFoundException {
-        cardService.updateCard(cardNumber, newCard);
+    public ResponseEntity<Object> updateCard(@Valid @RequestBody Card newCard,@PathVariable Integer cardNumber) throws CardNotFoundException {
+        return ResponseEntity.ok(cardService.updateCard(cardNumber, newCard));
     }
 }

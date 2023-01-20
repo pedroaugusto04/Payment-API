@@ -4,11 +4,13 @@
  */
 package com.example.demo.models;
 
+import com.example.demo.validation.ValidationGroup.BuyerCpf;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.groups.Default;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +32,6 @@ public class Buyer {
     private String email;
     
     @Id
-    @NotNull
+    @NotNull(groups = {Default.class,BuyerCpf.class})
     private String cpf;
 }

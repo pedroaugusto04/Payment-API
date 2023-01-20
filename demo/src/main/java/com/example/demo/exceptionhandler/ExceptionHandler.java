@@ -4,12 +4,13 @@
  */
 package com.example.demo.exceptionhandler;
 
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.exceptions.CpfNotFoundException;
 import com.example.demo.exceptions.IdNotFoundException;
-import com.example.demo.exceptions.InvalidPaymentException;
+import com.example.demo.exceptions.InvalidBuyerException;
+import com.example.demo.exceptions.InvalidCardException;
 import com.example.demo.exceptions.RoleTypeNotFoundException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.MessageSource;
@@ -55,7 +56,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     
     @org.springframework.web.bind.annotation.ExceptionHandler(CardNotFoundException.class)
     public ResponseEntity<Object> handleCardNotFound(CardNotFoundException ex,WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         Error error = new Error();
         error.setStatus(status.value());
         error.setDescription("Card not registered");
@@ -65,7 +66,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     
     @org.springframework.web.bind.annotation.ExceptionHandler(IdNotFoundException.class)
     public ResponseEntity<Object> handleIdNotFound(IdNotFoundException ex,WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         Error error = new Error();
         error.setStatus(status.value());
         error.setDescription("Id not registered");
@@ -75,7 +76,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     
     @org.springframework.web.bind.annotation.ExceptionHandler(CpfNotFoundException.class)
     public ResponseEntity<Object> handleCpfNotFound(CpfNotFoundException ex,WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         Error error = new Error();
         error.setStatus(status.value());
         error.setDescription("CPF not registered");
@@ -84,13 +85,23 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
     
     
-    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidPaymentException.class)
-    public ResponseEntity<Object> handleInvalidPayment(InvalidPaymentException ex,WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidBuyerException.class)
+    public ResponseEntity<Object> handleInvalidBuyer(InvalidBuyerException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         Error error = new Error();
         error.setStatus(status.value());
-        error.setDescription("Invalid payment.Verify transaction data.\n"
-                + "Obs: If credit card payment, is mandatory to inform cardNumber, cardCvv and cardHolderName");
+        error.setDescription("Invalid buyer.Verify transaction data.");
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+    
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidCardException.class)
+    public ResponseEntity<Object> handleInvalidCard(InvalidCardException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setDescription("Invalid card.Verify transaction data.");
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 
     }
@@ -98,7 +109,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     
     @org.springframework.web.bind.annotation.ExceptionHandler(RoleTypeNotFoundException.class)
     public ResponseEntity<Object> handleRoleTypeNotFound(RoleTypeNotFoundException ex,WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         Error error = new Error();
         error.setStatus(status.value());
         error.setDescription("This role does not exist.");
@@ -106,14 +117,13 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
     
-    @org.springframework.web.bind.annotation.ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<Object> handleSQL(SQLIntegrityConstraintViolationException ex,WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+    @org.springframework.web.bind.annotation.ExceptionHandler(AlreadyRegisteredException.class)
+    public ResponseEntity<Object> handleAlreadyRegistered(AlreadyRegisteredException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         Error error = new Error();
         error.setStatus(status.value());
-        error.setDescription("Database did not accept your request. Verify if your data is already registered.");
+        error.setDescription("Request declined. ID already registered.");
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 
     }
-
 }

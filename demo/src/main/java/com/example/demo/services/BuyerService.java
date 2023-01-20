@@ -5,6 +5,7 @@
 package com.example.demo.services;
 
 import com.example.demo.dao.BuyerRepository;
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.CpfNotFoundException;
 import com.example.demo.models.Buyer;
 import jakarta.transaction.Transactional;
@@ -26,7 +27,10 @@ public class BuyerService implements IBuyerService {
 
     @Override
     @Transactional
-    public Buyer saveBuyer(Buyer buyer) {
+    public Buyer saveBuyer(Buyer buyer)  throws AlreadyRegisteredException {
+        if (buyerAlreadyRegistered(buyer)){
+            throw new AlreadyRegisteredException();
+        }
         return buyerRepository.save(buyer);
     }
     
@@ -56,5 +60,11 @@ public class BuyerService implements IBuyerService {
         Buyer oldBuyer = buyerRepository.findByCpf(buyerCpf).orElseThrow(() -> new CpfNotFoundException());
         newBuyer.setCpf(oldBuyer.getCpf());
         return buyerRepository.save(newBuyer);
+    }
+    
+    
+    @Override
+    public boolean buyerAlreadyRegistered(Buyer buyer) {
+        return buyerRepository.findByCpf(buyer.getCpf()).isPresent();
     }
 }

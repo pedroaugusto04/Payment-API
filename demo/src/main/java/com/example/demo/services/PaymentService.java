@@ -5,12 +5,16 @@
 package com.example.demo.services;
 
 import com.example.demo.dao.PaymentRepository;
+import com.example.demo.dto.PurchaseModelBoleto;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.exceptions.IdNotFoundException;
-import com.example.demo.exceptions.InvalidPaymentException;
+import com.example.demo.exceptions.InvalidBuyerException;
 import com.example.demo.models.Card;
 import com.example.demo.models.Payment;
-import com.example.demo.dto.PaymentCardDTO;
+import com.example.demo.dto.PurchaseModelCard;
+import com.example.demo.exceptions.CpfNotFoundException;
+import com.example.demo.exceptions.InvalidCardException;
+import com.example.demo.models.Buyer;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
@@ -26,30 +30,37 @@ public class PaymentService implements IPaymentService {
     private PaymentRepository paymentRepository;
 
     private CardService cardService;
+    
+    private BuyerService buyerService;
 
-    public PaymentService(PaymentRepository paymentRepository, CardService cardService) {
+    public PaymentService(PaymentRepository paymentRepository, CardService cardService, BuyerService buyerService) {
         this.paymentRepository = paymentRepository;
         this.cardService = cardService;
+        this.buyerService = buyerService;
     }
-
+    
+    
     @Override
-    public long boletoPayment(Payment payment) {
-        savePayment(payment);
+    @Transactional
+    public void savePayment(Payment payment) {
+        paymentRepository.save(payment);
+    }
+    
+    
+    @Override
+    public long boletoPayment(PurchaseModelBoleto purchase) throws CpfNotFoundException {
+        isBuyerValid(purchase.getBuyer());
+        savePayment(purchase.getPayment());
         return IPaymentService.generateNumberBoleto();
 
     }
 
     @Override
-    public String creditPayment(PaymentCardDTO paymentCard) {
-        savePayment(paymentCard.getPayment());
-        return paymentCard.getCard().getCardHolderName();
+    public String creditPayment(PurchaseModelCard purchase) throws CardNotFoundException, InvalidBuyerException, CpfNotFoundException,InvalidCardException {
+        isCreditPaymentValid(purchase);
+        savePayment(purchase.getPayment());
+        return purchase.getPayment().getCard().getCardHolderName();
 
-    }
-
-    @Override
-    @Transactional
-    public void savePayment(Payment payment) {
-        paymentRepository.save(payment);
     }
 
     @Override
@@ -79,20 +90,31 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public void isCreditPaymentValid(PaymentCardDTO paymentCard) throws CardNotFoundException, InvalidPaymentException {
-        Card card = cardService.findByCardNumber(paymentCard.getCard().getCardNumber());
-        if (!card.equals(paymentCard.getCard())) {
-            throw new InvalidPaymentException();
-        }
-
+    public void isCreditPaymentValid(PurchaseModelCard purchase) throws CardNotFoundException, InvalidBuyerException, CpfNotFoundException,InvalidCardException{
+        isCardValid(purchase.getPayment().getCard());
+        isBuyerValid(purchase.getBuyer(),purchase.getPayment().getCard());
     }
-
+    
+    
     @Override
-    public void isBoletoPaymentValid(Payment payment) throws InvalidPaymentException {
-        // logic 
-        boolean valid = true;
-        if (!valid) {
-            throw new InvalidPaymentException();
+    public void isCardValid(Card purchaseCard) throws CardNotFoundException, InvalidCardException{
+        Card card = cardService.findByCardNumber(purchaseCard.getCardNumber());
+        if (!card.equals(purchaseCard)) {
+            throw new InvalidCardException();
         }
+    }
+    
+    @Override
+    public void isBuyerValid(Buyer purchaseBuyer,Card purchaseCard) throws CpfNotFoundException, InvalidBuyerException{
+        Buyer buyer = buyerService.findByBuyerCpf(purchaseBuyer.getCpf());
+        if (!buyer.getName().equals(purchaseCard.getCardHolderName())){
+            throw new InvalidBuyerException();
+        }
+    }
+    
+    
+    @Override
+    public void isBuyerValid(Buyer purchaseBuyer) throws CpfNotFoundException{
+        Buyer buyer = buyerService.findByBuyerCpf(purchaseBuyer.getCpf());
     }
 }

@@ -4,6 +4,7 @@
  */
 package com.example.demo.services;
 
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.CpfNotFoundException;
 import com.example.demo.models.Buyer;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface IBuyerService {
     
-    public Buyer saveBuyer(Buyer buyer);
+    public Buyer saveBuyer(Buyer buyer) throws AlreadyRegisteredException;
     
     public Buyer findByBuyerCpf(String buyerCpf) throws CpfNotFoundException;
     
@@ -23,4 +24,6 @@ public interface IBuyerService {
     public void deleteBuyer(String buyerCpf) throws CpfNotFoundException;
     
     public Buyer updateBuyer(String buyerCpf, Buyer newBuyer) throws CpfNotFoundException;
+    
+    public boolean buyerAlreadyRegistered(Buyer buyer);
 }

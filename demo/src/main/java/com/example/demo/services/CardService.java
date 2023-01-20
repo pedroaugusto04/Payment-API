@@ -5,6 +5,7 @@
 package com.example.demo.services;
 
 import com.example.demo.dao.CardRepository;
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.models.Card;
 import jakarta.transaction.Transactional;
@@ -27,7 +28,10 @@ public class CardService implements ICardService {
 
     @Override
     @Transactional
-    public Card saveCard(Card card) {
+    public Card saveCard(Card card)  throws AlreadyRegisteredException{
+        if (cardAlreadyRegistered(card)){
+            throw new AlreadyRegisteredException();
+        }
         return cardRepository.save(card);
     }
 
@@ -55,5 +59,10 @@ public class CardService implements ICardService {
         Card oldCard = cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new CardNotFoundException());
         newCard.setCardNumber(oldCard.getCardNumber());
         return cardRepository.save(newCard);
+    }
+
+    @Override
+    public boolean cardAlreadyRegistered(Card card) {
+        return cardRepository.findByCardNumber(card.getCardNumber()).isPresent();
     }
 }

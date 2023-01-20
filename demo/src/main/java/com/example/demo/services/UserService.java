@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.demo.dao.UserRepository;
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.IdNotFoundException;
 import com.example.demo.exceptions.RoleTypeNotFoundException;
 import com.example.demo.models.Role;
@@ -45,12 +46,11 @@ public class UserService implements UserDetailsService, IUserService {
 
     @Override
     @Transactional
-    public UserModel saveUser(UserModel user) throws RoleTypeNotFoundException {
-        if (user.getRoleType() != null){
-            setUserRole(user);    
-        } else {
-            setDefaultRole(user);
+    public UserModel saveUser(UserModel user) throws RoleTypeNotFoundException, AlreadyRegisteredException {
+        if (userAlreadyRegistered(user)){
+            throw new AlreadyRegisteredException();
         }
+        setRole(user);
         return userRepository.save(user);
     }
 
@@ -97,6 +97,15 @@ public class UserService implements UserDetailsService, IUserService {
         Role roleUser = roleRepository.findByRoleType(RoleType.ROLE_ADMIN).orElseThrow(() -> new RoleTypeNotFoundException());
         user.addRole(roleUser);
     }
+    
+    @Override
+    public void setRole(UserModel user) throws RoleTypeNotFoundException{
+        if (user.getRoleType() != null){
+            setUserRole(user);    
+        } else {
+            setDefaultRole(user);
+        }
+    }
 
     @Override
     public void setUserRole(UserModel user) throws RoleTypeNotFoundException {
@@ -106,5 +115,10 @@ public class UserService implements UserDetailsService, IUserService {
             case "ADMIN" -> setAdminRole(user);
             default -> setDefaultRole(user);
         }
+    }
+
+    @Override
+    public boolean userAlreadyRegistered(UserModel user) {
+        return userRepository.findByUsername(user.getUsername()).isPresent();
     }
 }

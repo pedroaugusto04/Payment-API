@@ -4,6 +4,7 @@
  */
 package com.example.demo.controller;
 
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.IdNotFoundException;
 import com.example.demo.exceptions.RoleTypeNotFoundException;
 import com.example.demo.models.UserModel;
@@ -11,6 +12,7 @@ import com.example.demo.services.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,17 +36,16 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    
+
     @PostMapping("/signup")
-    public UserModel saveUser(@Valid @RequestBody UserModel user) throws RoleTypeNotFoundException {
+    public UserModel saveUser(@Valid @RequestBody UserModel user) throws RoleTypeNotFoundException, AlreadyRegisteredException {
         return userService.saveUser(user);
     }
-    
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{userId}")
     public UserModel getByUserId(@PathVariable UUID userId) throws IdNotFoundException {
-        UserModel user  = userService.findById(userId);
-        return user;
+        return userService.findById(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -52,16 +53,17 @@ public class UserController {
     public List<UserModel> getUsers() {
         return userService.getUsers();
     }
-    
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable UUID userId) throws IdNotFoundException{
+    public ResponseEntity<String> deleteUser(@PathVariable UUID userId) throws IdNotFoundException {
         userService.deleteUser(userId);
+        return ResponseEntity.ok("User deleted successfully!"); 
     }
-    
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{userId}")
-    public void updateUser(@Valid @RequestBody UserModel newUser,@PathVariable UUID userId) throws IdNotFoundException{
-        userService.updateUser(userId, newUser);
+    public ResponseEntity<Object> updateUser(@Valid @RequestBody UserModel newUser, @PathVariable UUID userId) throws IdNotFoundException {
+        return ResponseEntity.ok(userService.updateUser(userId, newUser));
     }
 }

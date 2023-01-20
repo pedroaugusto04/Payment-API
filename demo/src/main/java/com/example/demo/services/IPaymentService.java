@@ -4,11 +4,16 @@
  */
 package com.example.demo.services;
 
+import com.example.demo.dto.PurchaseModelBoleto;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.exceptions.IdNotFoundException;
-import com.example.demo.exceptions.InvalidPaymentException;
+import com.example.demo.exceptions.InvalidBuyerException;
 import com.example.demo.models.Payment;
-import com.example.demo.dto.PaymentCardDTO;
+import com.example.demo.dto.PurchaseModelCard;
+import com.example.demo.exceptions.CpfNotFoundException;
+import com.example.demo.exceptions.InvalidCardException;
+import com.example.demo.models.Buyer;
+import com.example.demo.models.Card;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -20,9 +25,9 @@ import java.util.UUID;
 public interface IPaymentService {
 
     
-    public String creditPayment(PaymentCardDTO paymentCard);
+    public String creditPayment(PurchaseModelCard payment) throws CardNotFoundException, InvalidBuyerException, CpfNotFoundException,InvalidCardException;
     
-    public long boletoPayment(Payment payment);
+        public long boletoPayment(PurchaseModelBoleto payment) throws CpfNotFoundException;
 
     public static long generateNumberBoleto() {
         Random random = new Random();
@@ -32,9 +37,7 @@ public interface IPaymentService {
    
     public void savePayment(Payment payment);
     
-    public void isCreditPaymentValid(PaymentCardDTO paymentCard) throws CardNotFoundException, InvalidPaymentException;
-    
-    public void isBoletoPaymentValid(Payment payment) throws InvalidPaymentException;
+    public void isCreditPaymentValid(PurchaseModelCard payment) throws CardNotFoundException, InvalidBuyerException, CpfNotFoundException,InvalidCardException;
     
     public Payment findByPaymentId(UUID paymentId) throws IdNotFoundException;
     
@@ -43,4 +46,10 @@ public interface IPaymentService {
     public Payment updatePayment(UUID paymentId, Payment newPayment) throws IdNotFoundException;
     
     public void deletePayment(UUID paymentId) throws IdNotFoundException;
+    
+    public void isCardValid(Card purchaseCard) throws CardNotFoundException, InvalidCardException;
+    
+    public void isBuyerValid(Buyer purchaseBuyer,Card purchaseCard) throws CpfNotFoundException, InvalidBuyerException;
+    
+    public void isBuyerValid(Buyer purchaseBuyer) throws CpfNotFoundException;
 }

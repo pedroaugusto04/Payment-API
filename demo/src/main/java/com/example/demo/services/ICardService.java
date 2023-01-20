@@ -4,6 +4,7 @@
  */
 package com.example.demo.services;
 
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.models.Card;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface ICardService {
     
-    public Card saveCard(Card card);
+    public Card saveCard(Card card) throws AlreadyRegisteredException;
     
     public Card findByCardNumber(Integer cardNumber) throws CardNotFoundException;
     
@@ -23,4 +24,6 @@ public interface ICardService {
     public void deleteCard(Integer cardNumber) throws CardNotFoundException;
     
     public Card updateCard(Integer cardNumber, Card newCard) throws CardNotFoundException;
+    
+    public boolean cardAlreadyRegistered(Card card);
 }

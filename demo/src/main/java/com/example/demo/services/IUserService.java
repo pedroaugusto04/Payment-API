@@ -4,6 +4,7 @@
  */
 package com.example.demo.services;
 
+import com.example.demo.exceptions.AlreadyRegisteredException;
 import com.example.demo.exceptions.IdNotFoundException;
 import com.example.demo.exceptions.RoleTypeNotFoundException;
 import com.example.demo.models.UserModel;
@@ -16,7 +17,7 @@ import java.util.UUID;
  */
 public interface IUserService {
 
-    public UserModel saveUser(UserModel user) throws RoleTypeNotFoundException;
+    public UserModel saveUser(UserModel user) throws RoleTypeNotFoundException,AlreadyRegisteredException;
 
     public List<UserModel> getUsers();
     
@@ -26,6 +27,8 @@ public interface IUserService {
 
     public void deleteUser(UUID userId) throws IdNotFoundException;
     
+    public void setRole(UserModel user) throws RoleTypeNotFoundException;
+    
     public void setUserRole(UserModel user) throws RoleTypeNotFoundException;
 
     public void setDefaultRole(UserModel user) throws RoleTypeNotFoundException;
@@ -33,4 +36,6 @@ public interface IUserService {
     public void setBuyerRole(UserModel user) throws RoleTypeNotFoundException;
 
     public void setAdminRole(UserModel user) throws RoleTypeNotFoundException;
+    
+    public boolean userAlreadyRegistered(UserModel user);
 }

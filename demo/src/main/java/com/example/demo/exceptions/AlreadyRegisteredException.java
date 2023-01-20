@@ -8,12 +8,12 @@ package com.example.demo.exceptions;
  *
  * @author pedro
  */
-public class InvalidPaymentException extends Exception{
+public class AlreadyRegisteredException extends Exception{
 
-    public InvalidPaymentException() {
+    public AlreadyRegisteredException() {
     }
 
-    public InvalidPaymentException(String message) {
+    public AlreadyRegisteredException(String message) {
         super(message);
     }
     
