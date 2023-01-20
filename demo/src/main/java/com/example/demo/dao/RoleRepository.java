@@ -4,17 +4,16 @@
  */
 package com.example.demo.dao;
 
-import com.example.demo.models.Card;
+import com.example.demo.models.Role;
+import com.example.demo.models.RoleType;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author pedro
  */
-@Repository
-public interface CardRepository extends JpaRepository<Card, String> {
+public interface RoleRepository  extends JpaRepository<Role, Integer>{
     
-    public Optional<Card> findByCardNumber(Integer cardNumber);
+    public Optional<Role> findByRoleType(RoleType roleType);
 }

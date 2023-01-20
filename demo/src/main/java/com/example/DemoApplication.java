@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,5 +11,4 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
         System.out.println(new  BCryptPasswordEncoder().encode("senha123"));
     }
-
 }

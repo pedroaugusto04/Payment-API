@@ -4,8 +4,9 @@
  */
 package com.example.demo.services;
 
+import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.models.Card;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import java.util.List;
 
 /**
  *
@@ -15,5 +16,11 @@ public interface ICardService {
     
     public Card saveCard(Card card);
     
-    public Card findCardByCardNumber(Integer cardNumber) throws ChangeSetPersister.NotFoundException;
+    public Card findByCardNumber(Integer cardNumber) throws CardNotFoundException;
+    
+    public List<Card> getCards();
+    
+    public void deleteCard(Integer cardNumber) throws CardNotFoundException;
+    
+    public Card updateCard(Integer cardNumber, Card newCard) throws CardNotFoundException;
 }

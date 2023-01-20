@@ -9,20 +9,26 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author pedro
  */
-@Data
+@Getter
+@Setter
 @Entity
 public class Buyer {
+    
     @Size(max = 40)
+    @NotNull
     private String name;
+    
     @Email
+    @NotNull
     private String email;
+    
     @Id
     @NotNull
     private String cpf;

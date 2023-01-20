@@ -11,23 +11,30 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import java.util.Calendar;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author pedro
  */
-@Data
+@Getter
+@Setter
 @Entity
 public class Card {
-
+    
+    @NotNull
     private String cardHolderName;
+    
     @Id
     @NotNull
     private Integer cardNumber;
+    
     @Temporal(TemporalType.DATE)
     @Nullable
     private Calendar cardExpirationDate;
+    
+    @NotNull
     private Integer cardCvv;
 
     @Override
@@ -41,7 +48,6 @@ public class Card {
         Card card = (Card) object;
         return card.cardNumber.equals(this.cardNumber)
                 && card.cardHolderName.equals(this.cardHolderName)
-                && card.cardExpirationDate.equals(this.cardExpirationDate)
                 && card.cardCvv.equals(this.cardCvv);
 
     }

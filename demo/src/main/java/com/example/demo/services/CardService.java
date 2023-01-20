@@ -5,12 +5,11 @@
 package com.example.demo.services;
 
 import com.example.demo.dao.CardRepository;
+import com.example.demo.exceptions.CardNotFoundException;
 import com.example.demo.models.Card;
 import jakarta.transaction.Transactional;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
+import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -28,14 +27,33 @@ public class CardService implements ICardService {
 
     @Override
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public Card saveCard(Card card) {
         return cardRepository.save(card);
     }
 
     @Override
-    public Card findCardByCardNumber(Integer cardNumber) throws ChangeSetPersister.NotFoundException {
-        Card card = cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+    public Card findByCardNumber(Integer cardNumber) throws CardNotFoundException {
+        Card card = cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new CardNotFoundException());
         return card;
+    }
+
+    @Override
+    public List<Card> getCards() {
+        return cardRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void deleteCard(Integer cardNumber) throws CardNotFoundException {
+        Card card = cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new CardNotFoundException());
+        cardRepository.delete(card);
+    }
+
+    @Override
+    @Transactional
+    public Card updateCard(Integer cardNumber, Card newCard) throws CardNotFoundException {
+        Card oldCard = cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new CardNotFoundException());
+        newCard.setCardNumber(oldCard.getCardNumber());
+        return cardRepository.save(newCard);
     }
 }

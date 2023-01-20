@@ -4,6 +4,7 @@
  */
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,10 +25,14 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role implements GrantedAuthority{
     
     @Id
-    private Integer id;
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
+    private Integer id;
+    
+    @Column(nullable = false, unique = true)
+    @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private RoleType roleType;
+    
     @Override
     public String getAuthority() {
         return this.roleType.toString();

@@ -4,8 +4,12 @@
  */
 package com.example.demo.exceptionhandler;
 
-import com.example.demo.exceptions.CardInvalidException;
+import com.example.demo.exceptions.CardNotFoundException;
+import com.example.demo.exceptions.CpfNotFoundException;
+import com.example.demo.exceptions.IdNotFoundException;
 import com.example.demo.exceptions.InvalidPaymentException;
+import com.example.demo.exceptions.RoleTypeNotFoundException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.MessageSource;
@@ -48,13 +52,33 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         error.setFields(fields);
         return handleExceptionInternal(ex, error, headers, status, request);
     }
-
-    @org.springframework.web.bind.annotation.ExceptionHandler(CardInvalidException.class)
-    public ResponseEntity<Object> handleCardNotFound(CardInvalidException ex,WebRequest request) {
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(CardNotFoundException.class)
+    public ResponseEntity<Object> handleCardNotFound(CardNotFoundException ex,WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         Error error = new Error();
         error.setStatus(status.value());
         error.setDescription("Card not registered");
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(IdNotFoundException.class)
+    public ResponseEntity<Object> handleIdNotFound(IdNotFoundException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setDescription("Id not registered");
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(CpfNotFoundException.class)
+    public ResponseEntity<Object> handleCpfNotFound(CpfNotFoundException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setDescription("CPF not registered");
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 
     }
@@ -65,7 +89,29 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         Error error = new Error();
         error.setStatus(status.value());
-        error.setDescription("Invalid payment.Verify transaction data.");
+        error.setDescription("Invalid payment.Verify transaction data.\n"
+                + "Obs: If credit card payment, is mandatory to inform cardNumber, cardCvv and cardHolderName");
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+    
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(RoleTypeNotFoundException.class)
+    public ResponseEntity<Object> handleRoleTypeNotFound(RoleTypeNotFoundException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setDescription("This role does not exist.");
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<Object> handleSQL(SQLIntegrityConstraintViolationException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setDescription("Database did not accept your request. Verify if your data is already registered.");
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 
     }

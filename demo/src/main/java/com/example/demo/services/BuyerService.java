@@ -5,11 +5,11 @@
 package com.example.demo.services;
 
 import com.example.demo.dao.BuyerRepository;
+import com.example.demo.exceptions.CpfNotFoundException;
 import com.example.demo.models.Buyer;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
+import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -26,8 +26,35 @@ public class BuyerService implements IBuyerService {
 
     @Override
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public Buyer saveBuyer(Buyer buyer) {
         return buyerRepository.save(buyer);
+    }
+    
+    
+    @Override
+    public Buyer findByBuyerCpf(String buyerCpf) throws CpfNotFoundException{
+        Buyer buyer = buyerRepository.findByCpf(buyerCpf).orElseThrow(() -> new CpfNotFoundException());
+        return buyer;
+    }
+    
+    
+    @Override
+    public List<Buyer> getBuyers() {
+        return buyerRepository.findAll();
+    }
+    
+    @Override
+    @Transactional
+    public void deleteBuyer(String buyerCpf) throws CpfNotFoundException {
+        Buyer buyer = buyerRepository.findByCpf(buyerCpf).orElseThrow(() -> new CpfNotFoundException());
+        buyerRepository.delete(buyer);
+    }
+    
+    @Override
+    @Transactional
+    public Buyer updateBuyer(String buyerCpf, Buyer newBuyer) throws CpfNotFoundException {
+        Buyer oldBuyer = buyerRepository.findByCpf(buyerCpf).orElseThrow(() -> new CpfNotFoundException());
+        newBuyer.setCpf(oldBuyer.getCpf());
+        return buyerRepository.save(newBuyer);
     }
 }

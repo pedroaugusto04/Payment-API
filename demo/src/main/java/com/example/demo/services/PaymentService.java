@@ -5,16 +5,16 @@
 package com.example.demo.services;
 
 import com.example.demo.dao.PaymentRepository;
-import com.example.demo.exceptions.CardInvalidException;
+import com.example.demo.exceptions.CardNotFoundException;
+import com.example.demo.exceptions.IdNotFoundException;
 import com.example.demo.exceptions.InvalidPaymentException;
 import com.example.demo.models.Card;
 import com.example.demo.models.Payment;
-import com.example.demo.models.PaymentCardDTO;
+import com.example.demo.dto.PaymentCardDTO;
 import jakarta.transaction.Transactional;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -48,25 +48,50 @@ public class PaymentService implements IPaymentService {
 
     @Override
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public void savePayment(Payment payment) {
         paymentRepository.save(payment);
     }
 
     @Override
-    public void isCreditPaymentValid(PaymentCardDTO paymentCard) throws ChangeSetPersister.NotFoundException, CardInvalidException {
-        Card card = cardService.findCardByCardNumber(paymentCard.getCard().getCardNumber());
+    public Payment findByPaymentId(UUID paymentId) throws IdNotFoundException {
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new IdNotFoundException()); // exceptionHandler
+        return payment;
+    }
+
+    @Override
+    public List<Payment> getPayments() {
+        return paymentRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Payment updatePayment(UUID paymentId, Payment newPayment) throws IdNotFoundException {
+        Payment oldPayment = paymentRepository.findById(paymentId).orElseThrow(() -> new IdNotFoundException());
+        newPayment.setId(oldPayment.getId());
+        return paymentRepository.save(newPayment);
+    }
+
+    @Override
+    @Transactional
+    public void deletePayment(UUID paymentId) throws IdNotFoundException {
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new IdNotFoundException());
+        paymentRepository.delete(payment);
+    }
+
+    @Override
+    public void isCreditPaymentValid(PaymentCardDTO paymentCard) throws CardNotFoundException, InvalidPaymentException {
+        Card card = cardService.findByCardNumber(paymentCard.getCard().getCardNumber());
         if (!card.equals(paymentCard.getCard())) {
-            throw new CardInvalidException();
+            throw new InvalidPaymentException();
         }
 
     }
 
     @Override
-    public void isBoletoPaymentValid(Payment payment) throws InvalidPaymentException{
+    public void isBoletoPaymentValid(Payment payment) throws InvalidPaymentException {
         // logic 
         boolean valid = true;
-        if (!valid){
+        if (!valid) {
             throw new InvalidPaymentException();
         }
     }

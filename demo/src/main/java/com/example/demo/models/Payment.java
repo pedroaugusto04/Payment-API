@@ -11,21 +11,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Positive;
-import lombok.Data;
+import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author pedro
  */
-@Data
+@Getter
+@Setter
 @Entity
 public class Payment {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue (strategy = GenerationType.UUID)
+    private UUID id;
+    
     @Positive
     private double amount;
+    
     @ManyToOne(optional = true)
     @JoinColumn(name = "cardNumber", nullable = true)
     private Card card;

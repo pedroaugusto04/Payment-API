@@ -8,12 +8,12 @@ package com.example.demo.exceptions;
  *
  * @author pedro
  */
-public class CardInvalidException extends Exception {
+public class IdNotFoundException extends Exception{
 
-    public CardInvalidException() {
+    public IdNotFoundException() {
     }
 
-    public CardInvalidException(String message) {
+    public IdNotFoundException(String message) {
         super(message);
     }
     

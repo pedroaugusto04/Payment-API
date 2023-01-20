@@ -6,6 +6,7 @@ package com.example.demo.dao;
 
 import com.example.demo.models.UserModel;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Repository;
  * @author pedro
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserModel, Integer> {
-    
+public interface UserRepository extends JpaRepository<UserModel, UUID> {
+
     public Optional<UserModel> findByUsername(String username);
+
 }
