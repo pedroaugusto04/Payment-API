@@ -72,7 +72,7 @@ public class PaymentController {
         return ResponseEntity.ok("Payment deleted successfully!");
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/{paymentId}")
     public ResponseEntity<Object> updatePayment(@Valid @RequestBody Payment newPayment, @PathVariable UUID paymentId) throws IdNotFoundException {
         return ResponseEntity.ok(paymentService.updatePayment(paymentId, newPayment));
     }

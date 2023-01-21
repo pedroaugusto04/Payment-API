@@ -42,7 +42,7 @@ public class BuyerController {
         return buyerService.saveBuyer(buyer);
     }
 
-    @GetMapping("/{cardNumber}")
+    @GetMapping("/{buyerCpf}")
     public Buyer getByBuyerCpf(@PathVariable String buyerCpf) throws CpfNotFoundException {
         return buyerService.findByBuyerCpf(buyerCpf);
     }
