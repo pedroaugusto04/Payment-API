@@ -4,7 +4,6 @@
  */
 package com.pedro.wirecard.domain.model;
 
-import com.pedro.wirecard.domain.model.Card;
 import com.pedro.wirecard.domain.validation.ValidationGroup.Boleto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -4,7 +4,6 @@
  */
 package com.pedro.wirecard.api.exceptionhandler;
 
-import com.pedro.wirecard.api.exceptionhandler.Error;
 import com.pedro.wirecard.domain.exception.AlreadyRegisteredException;
 import com.pedro.wirecard.domain.exception.CardNotFoundException;
 import com.pedro.wirecard.domain.exception.CpfNotFoundException;

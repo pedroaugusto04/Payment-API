@@ -4,7 +4,6 @@
  */
 package com.pedro.wirecard.domain.service;
 
-import com.pedro.wirecard.domain.service.IUserService;
 import com.pedro.wirecard.domain.repository.RoleRepository;
 import com.pedro.wirecard.domain.model.UserModel;
 import org.springframework.security.core.userdetails.UserDetails;
