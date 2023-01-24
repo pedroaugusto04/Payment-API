@@ -7,7 +7,7 @@ package com.pedro.wirecard.api.controller;
 import com.pedro.wirecard.domain.exception.AlreadyRegisteredException;
 import com.pedro.wirecard.domain.exception.CardNotFoundException;
 import com.pedro.wirecard.domain.model.Card;
-import com.pedro.wirecard.domain.service.CardService;
+import com.pedro.wirecard.domain.service.ICardService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cards")
 public class CardController {
 
-    private CardService cardService;
+    private ICardService cardService;
 
-    public CardController(CardService cardService) {
+    public CardController(ICardService cardService) {
         this.cardService = cardService;
     }
 

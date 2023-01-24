@@ -7,7 +7,7 @@ package com.pedro.wirecard.api.controller;
 import com.pedro.wirecard.domain.exception.AlreadyRegisteredException;
 import com.pedro.wirecard.domain.exception.CpfNotFoundException;
 import com.pedro.wirecard.domain.model.Buyer;
-import com.pedro.wirecard.domain.service.BuyerService;
+import com.pedro.wirecard.domain.service.IBuyerService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/buyers")
 public class BuyerController {
 
-    private BuyerService buyerService;
+    private IBuyerService buyerService;
 
-    public BuyerController(BuyerService buyerService) {
+    public BuyerController(IBuyerService buyerService) {
         this.buyerService = buyerService;
     }
 

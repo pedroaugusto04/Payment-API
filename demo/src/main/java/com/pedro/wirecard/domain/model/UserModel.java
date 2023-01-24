@@ -4,7 +4,6 @@
  */
 package com.pedro.wirecard.domain.model;
 
-import com.pedro.wirecard.domain.model.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Column;

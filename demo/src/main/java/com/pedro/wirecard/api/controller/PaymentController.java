@@ -12,7 +12,7 @@ import com.pedro.wirecard.domain.model.Payment;
 import com.pedro.wirecard.api.model.PurchaseModelCard;
 import com.pedro.wirecard.domain.exception.CpfNotFoundException;
 import com.pedro.wirecard.domain.exception.InvalidCardException;
-import com.pedro.wirecard.domain.service.PaymentService;
+import com.pedro.wirecard.domain.service.IPaymentService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/payments")
 public class PaymentController {
 
-    private PaymentService paymentService;
+    private IPaymentService paymentService;
 
-    public PaymentController(PaymentService paymentService) {
+    public PaymentController(IPaymentService paymentService) {
         this.paymentService = paymentService;
     }
 

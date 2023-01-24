@@ -8,7 +8,7 @@ import com.pedro.wirecard.domain.exception.AlreadyRegisteredException;
 import com.pedro.wirecard.domain.exception.IdNotFoundException;
 import com.pedro.wirecard.domain.exception.RoleTypeNotFoundException;
 import com.pedro.wirecard.domain.model.UserModel;
-import com.pedro.wirecard.domain.service.UserService;
+import com.pedro.wirecard.domain.service.IUserService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 
