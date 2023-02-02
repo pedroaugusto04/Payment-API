@@ -38,8 +38,9 @@ public class CardController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BUYER')")
-    public Card saveCard(@Valid @RequestBody Card card) throws AlreadyRegisteredException{
-        return cardService.saveCard(card);
+    public ResponseEntity<Card> saveCard(@Valid @RequestBody Card card) throws AlreadyRegisteredException{
+        Card newCard = cardService.saveCard(card);
+        return ResponseEntity.status(201).body(newCard);
     }
 
     @GetMapping("/{cardNumber}")
