@@ -1,5 +1,5 @@
 # Payment-API
-Project made for improve knowledge about web development in Java.
+API to process payments in Java
 
 Project inspired by Wirecard Backend Challenge. Consists of an API to process payments, storing information in a MySQL database. My goal with this project was to better understand Spring ecosystem, together with good practices related to its use.
 
