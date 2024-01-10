@@ -58,7 +58,8 @@ spring.jpa.defer-datasource-initialization=true
   
   They are needed to see if you are allowed to do some request or not
 ### Create User (ALLOWED FOR ALL)
-POST /users/signup
+
+`POST /users/signup`
 
 ### Request
     {
@@ -99,7 +100,9 @@ POST /users/signup
 ## Card
   To buy using credit option, a card is needed
 ### Create Card (ALLOWED FOR BUYER,ADMIN)
-POST /cards
+
+`POST /cards`
+
 ### Request
     {
     "cardHolderName": "yourName",
@@ -114,20 +117,22 @@ POST /cards
 
 `GET /cards/{cardNumber}    (retrieves card from cardNumber) `   
 
-GET /users/id/{username}   (retrieves userId from username) 
+`GET /users/id/{username}   (retrieves userId from username)` 
 
 ### DELETE Card (ALLOWED FOR ADMIN)
 
-DELETE /cards/{cardNumber}   
+`DELETE /cards/{cardNumber}`
 
 ### UPDATE Card (ALLOWED FOR ADMIN)
 
-PUT /cards/{cardNumber} 
+`PUT /cards/{cardNumber}`
 
 ## Buyer
 
 ### Create Buyer (ALLOWED FOR CLIENT,BUYER,ADMIN)
-POST /buyers
+
+`POST /buyers`
+
 ### Request
     {
     "cpf": "123.456.789-09",
@@ -140,19 +145,22 @@ POST /buyers
 
 `GET /buyers    (retrieves all buyers) `   
 
-GET /buyers/{buyerCpf}   (retrieves buyer from buyerCpf) 
+`GET /buyers/{buyerCpf}   (retrieves buyer from buyerCpf)`
 
 ### DELETE Buyer (ALLOWED FOR ADMIN)
 
-DELETE /buyers/{buyerCpf}   
+`DELETE /buyers/{buyerCpf}`   
 
 ### UPDATE Buyer (ALLOWED FOR ADMIN)
 
-PUT /buyers/{buyerCpf} 
+`PUT /buyers/{buyerCpf}`
+
 ## Payment
 
 ### Create Credit Payment (ALLOWED FOR BUYER,ADMIN)
-POST /payments/credit
+
+`POST /payments/credit`
+
 ### Request
     {
     "payment":{
@@ -171,7 +179,9 @@ POST /payments/credit
     201 CREATED
     Sucessfully transaction for yourName
 ### Create Boleto Payment (ALLOWED FOR BUYER,ADMIN)
-POST /payments/boleto
+
+`POST /payments/boleto`
+
 ### Request
     {
     "payment":{
@@ -186,14 +196,14 @@ POST /payments/boleto
     8213777781789215734  (num boleto)
 ### GET Payment Info (ALLOWED FOR ADMIN)
 
-GET /payments    (retrieves all payments)   
+`GET /payments    (retrieves all payments)`   
 
-GET /payments/{paymentId}   (retrieves payment from paymentId) 
+`GET /payments/{paymentId}   (retrieves payment from paymentId)`
 
 ### DELETE Payment (ALLOWED FOR ADMIN)
 
-DELETE /payments/{paymentId}   
+`DELETE /payments/{paymentId}`   
 
 ### UPDATE Payment (ALLOWED FOR ADMIN)
 
-PUT /payments/{paymentId}
+`PUT /payments/{paymentId}`
