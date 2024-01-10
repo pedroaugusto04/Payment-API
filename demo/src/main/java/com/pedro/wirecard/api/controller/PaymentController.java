@@ -46,14 +46,14 @@ public class PaymentController {
     @PostMapping("/boleto")
     public ResponseEntity<Long> saveBoletoPayment(@Valid @RequestBody PurchaseModelBoleto payment) throws InvalidBuyerException, CpfNotFoundException {
         Long numBoleto = paymentService.boletoPayment(payment);
-        return ResponseEntity.ok(numBoleto);
+        return ResponseEntity.status(201).body((numBoleto));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BUYER')")
     @PostMapping("/credit")
     public ResponseEntity<String> saveCreditPayment(@Valid @RequestBody PurchaseModelCard payment) throws InvalidBuyerException, CardNotFoundException, CpfNotFoundException, InvalidCardException {
         String cardHolderName = paymentService.creditPayment(payment);
-        return ResponseEntity.ok("Sucessfully transaction for " + cardHolderName);
+        return ResponseEntity.status(201).body(("Sucessfully transaction for " + cardHolderName));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")

@@ -39,6 +39,9 @@ public class Buyer {
         this.cpf = cpf;
     }
 
+    public Buyer() {
+    }
+
     public String getName() {
         return name;
     }

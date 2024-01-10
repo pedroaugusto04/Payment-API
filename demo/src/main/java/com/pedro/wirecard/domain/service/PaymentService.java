@@ -89,6 +89,7 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public void isCreditPaymentValid(PurchaseModelCard purchase) throws CardNotFoundException, InvalidBuyerException, CpfNotFoundException, InvalidCardException {
+        if (purchase.getPayment().getCard() == null) throw new CardNotFoundException();
         isCardValid(purchase.getPayment().getCard());
         isBuyerValid(purchase.getBuyer(), purchase.getPayment().getCard());
     }
