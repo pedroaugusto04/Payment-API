@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,20 +39,26 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public UserModel saveUser(@Valid @RequestBody UserModel user) throws RoleTypeNotFoundException, AlreadyRegisteredException {
-        return userService.saveUser(user);
+    public ResponseEntity<UserModel> saveUser(@Valid @RequestBody UserModel user) throws RoleTypeNotFoundException, AlreadyRegisteredException {
+        return ResponseEntity.status(201).body(userService.saveUser(user));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{userId}")
-    public UserModel getByUserId(@PathVariable UUID userId) throws IdNotFoundException {
-        return userService.findById(userId);
+    public ResponseEntity<UserModel> getByUserId(@PathVariable UUID userId) throws IdNotFoundException {
+        return ResponseEntity.ok(userService.findById(userId));
+    }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/id/{username}")
+    public ResponseEntity<UUID> getIdByUsername(@PathVariable String username) throws IdNotFoundException, UsernameNotFoundException {
+        return ResponseEntity.ok(userService.findIdByUsername(username));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public List<UserModel> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<List<UserModel>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

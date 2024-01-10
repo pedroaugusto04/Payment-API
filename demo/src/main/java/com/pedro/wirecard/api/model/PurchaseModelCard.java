@@ -11,8 +11,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.ConvertGroup;
 import jakarta.validation.groups.Default;
-import lombok.Getter;
-import lombok.Setter;
 
 
 /**
@@ -20,8 +18,7 @@ import lombok.Setter;
  * @author pedro
  */
 
-@Getter
-@Setter
+
 public class PurchaseModelCard {
     
     @NotNull
@@ -32,5 +29,23 @@ public class PurchaseModelCard {
     @NotNull
     @Valid
     private Payment payment;
+
+    public Buyer getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+    
+    
 
 }

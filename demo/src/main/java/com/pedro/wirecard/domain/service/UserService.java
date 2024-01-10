@@ -4,22 +4,23 @@
  */
 package com.pedro.wirecard.domain.service;
 
-import com.pedro.wirecard.domain.repository.RoleRepository;
-import com.pedro.wirecard.domain.model.UserModel;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import com.pedro.wirecard.domain.repository.UserRepository;
 import com.pedro.wirecard.domain.exception.AlreadyRegisteredException;
 import com.pedro.wirecard.domain.exception.IdNotFoundException;
 import com.pedro.wirecard.domain.exception.RoleTypeNotFoundException;
 import com.pedro.wirecard.domain.model.Role;
 import com.pedro.wirecard.domain.model.RoleType;
+import com.pedro.wirecard.domain.model.UserModel;
+import com.pedro.wirecard.domain.repository.RoleRepository;
+import com.pedro.wirecard.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 /**
  *
@@ -51,13 +52,20 @@ public class UserService implements UserDetailsService, IUserService {
             throw new AlreadyRegisteredException();
         }
         setRole(user);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword())); 
         return userRepository.save(user);
     }
 
     @Override
     public UserModel findById(UUID userId) throws IdNotFoundException {
-        UserModel user = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException()); // exceptionHandler
+        UserModel user = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException()); 
         return user;
+    }
+    
+    @Override
+    public UUID findIdByUsername(String username) throws UsernameNotFoundException {
+        UUID id  = userRepository.findIdByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not Found"));
+        return id;
     }
 
     @Override

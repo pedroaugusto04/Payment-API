@@ -4,6 +4,7 @@
  */
 package com.pedro.wirecard.api.exceptionhandler;
 
+import com.pedro.wirecard.api.exceptionhandler.Error;
 import com.pedro.wirecard.domain.exception.AlreadyRegisteredException;
 import com.pedro.wirecard.domain.exception.CardNotFoundException;
 import com.pedro.wirecard.domain.exception.CpfNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -70,6 +72,16 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         Error error = new Error();
         error.setStatus(status.value());
         error.setDescription("Id not registered");
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+    
+    @org.springframework.web.bind.annotation.ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<Object> handleUsernameNotFound(UsernameNotFoundException ex,WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setDescription("Username not registered");
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 
     }

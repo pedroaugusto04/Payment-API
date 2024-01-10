@@ -15,15 +15,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.groups.Default;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
  * @author pedro
  */
-@Getter
-@Setter
 @Entity
 public class Payment {
 
@@ -38,4 +34,29 @@ public class Payment {
     @JoinColumn(name = "cardNumber", nullable= true)
     @Valid
     private Card card;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+    
 }

@@ -10,6 +10,7 @@ import com.pedro.wirecard.domain.exception.RoleTypeNotFoundException;
 import com.pedro.wirecard.domain.model.UserModel;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  *
@@ -22,6 +23,8 @@ public interface IUserService {
     public List<UserModel> getUsers();
     
     public UserModel findById(UUID userId) throws IdNotFoundException;
+    
+    public UUID findIdByUsername(String username) throws UsernameNotFoundException;
 
     public UserModel updateUser(UUID userId, UserModel newUser) throws IdNotFoundException;
 

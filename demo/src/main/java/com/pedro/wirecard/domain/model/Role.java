@@ -10,8 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -19,8 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
  * @author pedro
  */
 
-@Getter
-@Setter
 @Entity
 public class Role implements GrantedAuthority{
     
@@ -37,5 +33,23 @@ public class Role implements GrantedAuthority{
     public String getAuthority() {
         return this.roleType.toString();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
+    }
+    
+    
     
 }

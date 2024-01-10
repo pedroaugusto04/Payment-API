@@ -104,4 +104,7 @@ public class UserModel implements UserDetails {
         this.id = id;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

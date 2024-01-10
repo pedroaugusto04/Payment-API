@@ -16,15 +16,13 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  *
  * @author pedro
  */
-@Getter
-@Setter
+
 @Entity
 public class Card {
     
@@ -60,4 +58,45 @@ public class Card {
                 && card.cardCvv.equals(this.cardCvv);
 
     }
+
+    public String getCardHolderName() {
+        return cardHolderName;
+    }
+
+    public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
+    }
+
+    public Integer getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(Integer cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public Calendar getCardExpirationDate() {
+        return cardExpirationDate;
+    }
+
+    public void setCardExpirationDate(Calendar cardExpirationDate) {
+        this.cardExpirationDate = cardExpirationDate;
+    }
+
+    public Integer getCardCvv() {
+        return cardCvv;
+    }
+
+    public void setCardCvv(Integer cardCvv) {
+        this.cardCvv = cardCvv;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+    
 }

@@ -38,26 +38,30 @@ public class BuyerController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CLIENT','ROLE_BUYER')")
-    public Buyer saveBuyer(@Valid @RequestBody Buyer buyer) throws AlreadyRegisteredException{
-        return buyerService.saveBuyer(buyer);
+    public ResponseEntity<Buyer> saveBuyer(@Valid @RequestBody Buyer buyer) throws AlreadyRegisteredException{
+        return ResponseEntity.status(201).body(buyerService.saveBuyer(buyer));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/{buyerCpf}")
-    public Buyer getByBuyerCpf(@PathVariable String buyerCpf) throws CpfNotFoundException {
-        return buyerService.findByBuyerCpf(buyerCpf);
+    public ResponseEntity<Buyer> getByBuyerCpf(@PathVariable String buyerCpf) throws CpfNotFoundException {
+        return ResponseEntity.ok(buyerService.findByBuyerCpf(buyerCpf));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
-    public List<Buyer> getBuyers() {
-        return buyerService.getBuyers();
+    public ResponseEntity<List<Buyer>> getBuyers() {
+        return ResponseEntity.ok(buyerService.getBuyers());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{buyerCpf}")
     public ResponseEntity<String> deleteBuyer(@PathVariable String buyerCpf) throws CpfNotFoundException {
         buyerService.deleteBuyer(buyerCpf);
         return ResponseEntity.ok("Buyer deleted successfully!");
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping("/{buyerCpf}")
     public ResponseEntity<Object> updateBuyer(@Valid @RequestBody Buyer newBuyer, @PathVariable String buyerCpf) throws CpfNotFoundException {
         return ResponseEntity.ok(buyerService.updateBuyer(buyerCpf, newBuyer));

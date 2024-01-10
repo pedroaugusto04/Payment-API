@@ -5,13 +5,13 @@
 package com.pedro.wirecard.api.controller;
 
 import com.pedro.wirecard.api.model.PurchaseModelBoleto;
+import com.pedro.wirecard.api.model.PurchaseModelCard;
 import com.pedro.wirecard.domain.exception.CardNotFoundException;
+import com.pedro.wirecard.domain.exception.CpfNotFoundException;
 import com.pedro.wirecard.domain.exception.IdNotFoundException;
 import com.pedro.wirecard.domain.exception.InvalidBuyerException;
-import com.pedro.wirecard.domain.model.Payment;
-import com.pedro.wirecard.api.model.PurchaseModelCard;
-import com.pedro.wirecard.domain.exception.CpfNotFoundException;
 import com.pedro.wirecard.domain.exception.InvalidCardException;
+import com.pedro.wirecard.domain.model.Payment;
 import com.pedro.wirecard.domain.service.IPaymentService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -56,22 +56,26 @@ public class PaymentController {
         return ResponseEntity.ok("Sucessfully transaction for " + cardHolderName);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/{paymentId}")
-    public Payment getByPaymentId(@PathVariable UUID paymentId) throws IdNotFoundException {
-        return paymentService.findByPaymentId(paymentId);
+    public ResponseEntity<Payment> getByPaymentId(@PathVariable UUID paymentId) throws IdNotFoundException {
+        return ResponseEntity.ok(paymentService.findByPaymentId(paymentId));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
-    public List<Payment> getPayments() {
-        return paymentService.getPayments();
+    public ResponseEntity<List<Payment>> getPayments() {
+        return ResponseEntity.ok(paymentService.getPayments());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{paymentId}")
     public ResponseEntity<String> deletePayment(@PathVariable UUID paymentId) throws IdNotFoundException {
         paymentService.deletePayment(paymentId);
         return ResponseEntity.ok("Payment deleted successfully!");
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping("/{paymentId}")
     public ResponseEntity<Object> updatePayment(@Valid @RequestBody Payment newPayment, @PathVariable UUID paymentId) throws IdNotFoundException {
         return ResponseEntity.ok(paymentService.updatePayment(paymentId, newPayment));

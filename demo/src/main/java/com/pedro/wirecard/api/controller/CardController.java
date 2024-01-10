@@ -43,22 +43,26 @@ public class CardController {
         return ResponseEntity.status(201).body(newCard);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/{cardNumber}")
-    public Card getByCardNumber(@PathVariable Integer cardNumber) throws CardNotFoundException {
-        return cardService.findByCardNumber(cardNumber);
+    public ResponseEntity<Card> getByCardNumber(@PathVariable Integer cardNumber) throws CardNotFoundException {
+        return ResponseEntity.ok(cardService.findByCardNumber(cardNumber));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
-    public List<Card> getCards() {
-        return cardService.getCards();
+    public ResponseEntity<List<Card>> getCards() {
+        return ResponseEntity.ok(cardService.getCards());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{cardNumber}")
     public ResponseEntity<String> deleteCard(@PathVariable Integer cardNumber) throws CardNotFoundException {
         cardService.deleteCard(cardNumber);
         return ResponseEntity.ok("Card deleted successfully!");
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping("/{cardNumber}")
     public ResponseEntity<Object> updateCard(@Valid @RequestBody Card newCard,@PathVariable Integer cardNumber) throws CardNotFoundException {
         return ResponseEntity.ok(cardService.updateCard(cardNumber, newCard));
