@@ -5,6 +5,53 @@ Project inspired by Wirecard Backend Challenge. Consists of an API to process pa
 
 Technologies used: Spring Web, Spring Data JPA with Hibernate, Spring security, MySQL, Maven, Bean Validation with Hibernate,Lombok.
 
+# 🛠️ How to run
+
+* Download JDK (Java Development Kit)
+
+* Download MySQL and Create a MySQL database
+
+* Clone this repository
+
+* Go to demo/src/main/resources
+
+* Create a file named application.properties
+
+* Inside application.properties, copy and paste the following code, filling in with your data
+
+```
+spring.datasource.url=jdbc:mysql://localhost:<port>/<databaseName>?useTimeZone=true&serverTimezone=UTC&autoReconnect=true
+
+spring.datasource.username=<yourUser>
+
+spring.datasource.password=<yourPassword>
+
+spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+
+spring.datasource.testWhileIdle=true
+
+spring.datasource.validationQuery=SELECT 1
+
+spring.jpa.show-sql=true
+
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+spring.sql.init.mode=ALWAYS
+
+spring.datasource.data=data.sql
+
+spring.jpa.defer-datasource-initialization=true
+```
+* Download Maven. Go to /demo and run `mvn clean install`
+
+* Go to /demo/target. You will se demo-0.0.1-SNAPSHOT.jar
+
+* Run demo-0.0.1-SNAPSHOT.jar with `java -jar demo-0.0.1-SNAPSHOT.jar` and send your requests
+
 # REST API
 ## User
   There are three types of user: "ADMIN", "CLIENT", "BUYER"
@@ -37,17 +84,17 @@ POST /users/signup
     "credentialsNonExpired": true
     }
 ### GET User Info (ALLOWED FOR ADMIN)
-GET /users  (retrieves all users)  
+`GET /users  (retrieves all users)`
 
-GET /users/id/{username}   (retrieves userId from username)   
+`GET /users/id/{username}   (retrieves userId from username)`   
 
 ### DELETE User (ALLOWED FOR ADMIN)
 
-DELETE /users/{userId}   
+`DELETE /users/{userId}`   
 
 ### UPDATE User (ALLOWED FOR ADMIN)
 
-PUT /users/{userId}   
+`PUT /users/{userId}`
 
 ## Card
   To buy using credit option, a card is needed
