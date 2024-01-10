@@ -113,11 +113,9 @@ spring.jpa.defer-datasource-initialization=true
     201 CREATED
 ### GET Card Info (ALLOWED FOR ADMIN)
 
-`GET /cards/{cardNumber}    (retrieves all cards) ` 
+`GET /cards/   (retrieves all cards)` 
 
 `GET /cards/{cardNumber}    (retrieves card from cardNumber) `   
-
-`GET /users/id/{username}   (retrieves userId from username)` 
 
 ### DELETE Card (ALLOWED FOR ADMIN)
 
@@ -191,9 +189,11 @@ spring.jpa.defer-datasource-initialization=true
     "cpf": "123.456.789-09"   
     }
     }
+    
 ### Response
     201 CREATED  
     8213777781789215734  (num boleto)
+    
 ### GET Payment Info (ALLOWED FOR ADMIN)
 
 `GET /payments    (retrieves all payments)`   
